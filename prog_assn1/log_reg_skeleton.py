@@ -75,10 +75,10 @@ class logistic_classifier(object):
         self.predictions = (probabilities > 0.5)
         return self.predictions
 
-
+#fhasjifhiashifhaishh
 dataset = "spam"
 # adjust the path according to where you have stored the dataset. 
-path = "../" + dataset + "/"
+path = "/" + dataset + "/"
 
 Xtr = np.load(path + "Xtrain.npy")
 Ytr = np.load(path + "Ytrain.npy")
