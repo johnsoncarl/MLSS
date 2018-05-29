@@ -1,0 +1,319 @@
+aman@aman-desktop:~/MLSS/spam-20180525T021104Z-001/spam$ python3
+Python 3.6.5 (default, Apr  1 2018, 05:46:30) 
+[GCC 7.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import numpy as np
+>>> Xtr = np.load("Xtrain.npy")
+>>> Ytr = np.load("Ytrain.npy")
+>>> w = np.random.normal(0.0, 0.1, Xtr.shape[1])
+>>> w
+array([-0.09433398, -0.0869256 , -0.07922181, -0.16198491,  0.00482877,
+        0.08889899,  0.03260757,  0.14614511,  0.02297451,  0.09356894,
+       -0.11842054, -0.08769221,  0.12584839, -0.08847899,  0.16936103,
+       -0.13971087, -0.0854019 , -0.10524849, -0.01564741, -0.0004646 ,
+       -0.0743238 , -0.09627578,  0.11408202,  0.06233048, -0.13290674,
+        0.17863764,  0.006795  ,  0.02773496, -0.19595495,  0.03295289,
+        0.0426981 ,  0.01250638, -0.034505  , -0.14103787,  0.01703435,
+        0.05807466,  0.10246829, -0.16700687, -0.01181818, -0.19234818,
+       -0.10517766, -0.03115676, -0.01985741,  0.04177491, -0.07660786,
+        0.15804059,  0.13360567, -0.1411959 ,  0.02922313, -0.10562875,
+        0.08763745, -0.10633502, -0.16235207, -0.03181253,  0.10217058,
+       -0.18834124, -0.0440107 ])
+>>> Ytr
+array([ 1.,  0.,  0., ...,  0.,  1.,  0.])
+>>> dot_prod = np.dot(w.T,Xtr)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: shapes (57,) and (3680,57) not aligned: 57 (dim 0) != 3680 (dim 0)
+>>> dot_prod = np.dot(Xtr,w.T)
+>>> dot_prod
+array([ -8.72424185,  -3.20631689,  -1.84909787, ...,  -0.48226698,
+       -40.20657598,  -3.27896157])
+>>> dot_prod.shape
+(3680,)
+>>> dot_prod = np.dot(w,Xtr)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: shapes (57,) and (3680,57) not aligned: 57 (dim 0) != 3680 (dim 0)
+>>> dot_prod = np.dot(np.getT(w),Xtr)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: module 'numpy' has no attribute 'getT'
+>>> dot_prod = np.dot(getT(w),Xtr)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'getT' is not defined
+>>> dot_prod = np.dot(np.transpose(w),Xtr)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ValueError: shapes (57,) and (3680,57) not aligned: 57 (dim 0) != 3680 (dim 0)
+>>> dot_prod = np.dot(Xtr,w.T)
+>>> dot_prod
+array([ -8.72424185,  -3.20631689,  -1.84909787, ...,  -0.48226698,
+       -40.20657598,  -3.27896157])
+>>> w.T.shape
+(57,)
+>>> w.shape
+(57,)
+>>> (w.T).shape
+(57,)
+>>> (np.transpose(w)).shape
+(57,)
+>>> type(w)
+<class 'numpy.ndarray'>
+>>> np.transpose(w)
+array([-0.09433398, -0.0869256 , -0.07922181, -0.16198491,  0.00482877,
+        0.08889899,  0.03260757,  0.14614511,  0.02297451,  0.09356894,
+       -0.11842054, -0.08769221,  0.12584839, -0.08847899,  0.16936103,
+       -0.13971087, -0.0854019 , -0.10524849, -0.01564741, -0.0004646 ,
+       -0.0743238 , -0.09627578,  0.11408202,  0.06233048, -0.13290674,
+        0.17863764,  0.006795  ,  0.02773496, -0.19595495,  0.03295289,
+        0.0426981 ,  0.01250638, -0.034505  , -0.14103787,  0.01703435,
+        0.05807466,  0.10246829, -0.16700687, -0.01181818, -0.19234818,
+       -0.10517766, -0.03115676, -0.01985741,  0.04177491, -0.07660786,
+        0.15804059,  0.13360567, -0.1411959 ,  0.02922313, -0.10562875,
+        0.08763745, -0.10633502, -0.16235207, -0.03181253,  0.10217058,
+       -0.18834124, -0.0440107 ])
+>>> w
+array([-0.09433398, -0.0869256 , -0.07922181, -0.16198491,  0.00482877,
+        0.08889899,  0.03260757,  0.14614511,  0.02297451,  0.09356894,
+       -0.11842054, -0.08769221,  0.12584839, -0.08847899,  0.16936103,
+       -0.13971087, -0.0854019 , -0.10524849, -0.01564741, -0.0004646 ,
+       -0.0743238 , -0.09627578,  0.11408202,  0.06233048, -0.13290674,
+        0.17863764,  0.006795  ,  0.02773496, -0.19595495,  0.03295289,
+        0.0426981 ,  0.01250638, -0.034505  , -0.14103787,  0.01703435,
+        0.05807466,  0.10246829, -0.16700687, -0.01181818, -0.19234818,
+       -0.10517766, -0.03115676, -0.01985741,  0.04177491, -0.07660786,
+        0.15804059,  0.13360567, -0.1411959 ,  0.02922313, -0.10562875,
+        0.08763745, -0.10633502, -0.16235207, -0.03181253,  0.10217058,
+       -0.18834124, -0.0440107 ])
+>>> type(Ytr)
+<class 'numpy.ndarray'>
+>>> np.transpose(Ytr)
+array([ 1.,  0.,  0., ...,  0.,  1.,  0.])
+>>> Ytr
+array([ 1.,  0.,  0., ...,  0.,  1.,  0.])
+>>> np.transpose(Xtr)
+array([[   0.62 ,    0.   ,    0.   , ...,    0.   ,    0.   ,    0.   ],
+       [   0.   ,    0.   ,    0.   , ...,    0.   ,    0.49 ,    1.85 ],
+       [   0.   ,    0.   ,    0.   , ...,    0.   ,    0.   ,    0.   ],
+       ..., 
+       [   3.318,    2.8  ,    1.769, ...,    1.   ,   10.159,    1.736],
+       [  30.   ,   12.   ,    4.   , ...,    1.   ,  114.   ,    8.   ],
+       [  73.   ,   28.   ,   23.   , ...,    9.   ,  447.   ,   33.   ]])
+>>> Xtr
+array([[   0.62 ,    0.   ,    0.   , ...,    3.318,   30.   ,   73.   ],
+       [   0.   ,    0.   ,    0.   , ...,    2.8  ,   12.   ,   28.   ],
+       [   0.   ,    0.   ,    0.   , ...,    1.769,    4.   ,   23.   ],
+       ..., 
+       [   0.   ,    0.   ,    0.   , ...,    1.   ,    1.   ,    9.   ],
+       [   0.   ,    0.49 ,    0.   , ...,   10.159,  114.   ,  447.   ],
+       [   0.   ,    1.85 ,    0.   , ...,    1.736,    8.   ,   33.   ]])
+>>> np.transpose(w).shape
+(57,)
+>>> w.shape
+(57,)
+>>> np.transpose(Xtr).shape
+(57, 3680)
+>>> Xtr.shape
+(3680, 57)
+>>> Xtr.T.shape
+(57, 3680)
+>>> np.dot(Xtr, w.T)
+array([ -8.72424185,  -3.20631689,  -1.84909787, ...,  -0.48226698,
+       -40.20657598,  -3.27896157])
+>>> dot_prod = np.dot(Xtr, w.T)
+>>> dot_prod.shape
+(3680,)
+>>> Ytr.shape
+(3680,)
+>>> dot_prod
+array([ -8.72424185,  -3.20631689,  -1.84909787, ...,  -0.48226698,
+       -40.20657598,  -3.27896157])
+>>> import math
+>>> exp_val = math.e**(-1 * dot_prod)
+>>> exp_val
+array([  6.15021211e+03,   2.46879900e+01,   6.35408475e+00, ...,
+         1.61974217e+00,   2.89397041e+17,   2.65481900e+01])
+>>> denom = 1 + exp_values
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'exp_values' is not defined
+>>> denom = 1 + exp_val
+>>> 1/denom
+array([  1.62569585e-04,   3.89286978e-02,   1.35978852e-01, ...,
+         3.81716953e-01,   3.45546035e-18,   3.63000255e-02])
+>>> prob = 1/denom
+>>> prob
+array([  1.62569585e-04,   3.89286978e-02,   1.35978852e-01, ...,
+         3.81716953e-01,   3.45546035e-18,   3.63000255e-02])
+>>> def compute_loss(self, probabilities, Ytr):
+...     loss = (1/len(probabilities))*(-np.dot(Ytr.T,np.log(probabilities)) - np.dot((1-Ytr).T),np.log(1 - probabilities))
+...     print(loss)
+... 
+>>> compute_loss(prob,Ytr)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+...     loss = (1/len(probabilities))*(-np.dot(Ytr.T,np.log(probabilities)) - np.dot((1-Ytr).T),np.log(1 - probabilities))
+...     print(loss)
+... 
+>>> compute_loss(prob,Ytr)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 2, in compute_loss
+TypeError: Required argument 'b' (pos 2) not found
+>>> def compute_loss(probabilities, Ytr):
+...     loss = (1/len(probabilities))*(-np.dot(Ytr.T,np.log(probabilities)) - np.dot((1-Ytr).T),np.log(1 - probabilities))
+...     print(loss)
+... 
+>>> compute_loss(prob,Ytr)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 2, in compute_loss
+TypeError: Required argument 'b' (pos 2) not found
+>>> Ytr
+array([ 1.,  0.,  0., ...,  0.,  1.,  0.])
+>>> len(prob)
+3680
+>>> m = len (prob)
+>>> yTlogH = -np.dot(Ytr.T),np.log(prob))
+  File "<stdin>", line 1
+    yTlogH = -np.dot(Ytr.T),np.log(prob))
+                                        ^
+SyntaxError: invalid syntax
+>>> yTlogH = -np.dot(Ytr.T,np.log(prob))
+>>> yTlogH
+57609.341728054627
+>>> y_Tlog1_h = -np.dot((1-Ytr).T,np.log(1 - prob))
+>>> y_Tlog1_h
+254.98183650203438
+>>> loss = yTlogH - y_Tlog1_H
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'y_Tlog1_H' is not defined
+>>> loss = yTlogH - y_Tlog1_h
+>>> loss
+57354.359891552594
+>>>         self.w = np.random.normal(0.0, 0.1, Xtr.shape[1])
+  File "<stdin>", line 1
+    self.w = np.random.normal(0.0, 0.1, Xtr.shape[1])
+    ^
+IndentationError: unexpected indent
+>>> self.w = np.random.normal(0.0, 0.1, Xtr.shape[1])
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'self' is not defined
+>>> w = np.random.normal(0.0, 0.1, Xtr.shape[1])
+>>> for iter in range(10000):
+...     dot_prod = np.dot(Xtr,w.T)
+...     exp_val = math.e**(-1 * dot_prod)
+...     denom = 1 + exp_val
+...     prob = 1/denom
+...     m = len (prob)
+...     yTlogH = -np.dot(Ytr.T,np.log(prob))
+...     y_Tlog1_h = -np.dot((1-Ytr).T,np.log(1 - prob))
+...     loss = (1/m)*(yTlogH - y_Tlog1_H)
+...     if iter%1000 == 0:
+...             print ("Train Loss = " + str(train_loss))
+... 
+Traceback (most recent call last):
+  File "<stdin>", line 9, in <module>
+NameError: name 'y_Tlog1_H' is not defined
+>>> for iter in range(10000):
+... ...     dot_prod = np.dot(Xtr,w.T)
+  File "<stdin>", line 2
+    ...     dot_prod = np.dot(Xtr,w.T)
+      ^
+IndentationError: expected an indented block
+>>> ...     exp_val = math.e**(-1 * dot_prod)
+  File "<stdin>", line 1
+    ...     exp_val = math.e**(-1 * dot_prod)
+                  ^
+SyntaxError: invalid syntax
+>>> ...     denom = 1 + exp_val
+  File "<stdin>", line 1
+    ...     denom = 1 + exp_val
+                ^
+SyntaxError: invalid syntax
+>>> ...     prob = 1/denom
+  File "<stdin>", line 1
+    ...     prob = 1/denom
+               ^
+SyntaxError: invalid syntax
+>>> ...     m = len (prob)
+  File "<stdin>", line 1
+    ...     m = len (prob)
+            ^
+SyntaxError: invalid syntax
+>>> ...     yTlogH = -np.dot(Ytr.T,np.log(prob))
+  File "<stdin>", line 1
+    ...     yTlogH = -np.dot(Ytr.T,np.log(prob))
+                 ^
+SyntaxError: invalid syntax
+>>> ...     y_Tlog1_h = -np.dot((1-Ytr).T,np.log(1 - prob))
+  File "<stdin>", line 1
+    ...     y_Tlog1_h = -np.dot((1-Ytr).T,np.log(1 - prob))
+                    ^
+SyntaxError: invalid syntax
+>>> ...     loss = (1/m)*(yTlogH - y_Tlog1_H)
+  File "<stdin>", line 1
+    ...     loss = (1/m)*(yTlogH - y_Tlog1_H)
+               ^
+SyntaxError: invalid syntax
+>>> ...     if iter%1000 == 0:
+  File "<stdin>", line 1
+    ...     if iter%1000 == 0:
+                             ^
+SyntaxError: invalid syntax
+>>> ...             print ("Train Loss = " + str(train_loss))
+  File "<stdin>", line 1
+    ...             print ("Train Loss = " + str(train_loss))
+                        ^
+SyntaxError: invalid syntax
+>>> for iter in range(10000):
+...     dot_prod = np.dot(Xtr,w.T)
+...     exp_val = math.e**(-1 * dot_prod)
+...     denom = 1 + exp_val
+...     prob = 1/denom
+...     m = len (prob)
+...     yTlogH = -np.dot(Ytr.T,np.log(prob))
+  File "<stdin>", line 7
+    yTlogH = -np.dot(Ytr.T,np.log(prob))
+                                       ^
+IndentationError: unindent does not match any outer indentation level
+>>> for iter in range(10000):
+...     dot_prod = np.dot(Xtr,w.T)
+...     exp_val = math.e**(-1 * dot_prod)
+...     denom = 1 + exp_val
+...     prob = 1/denom
+...     m = len (prob)
+...     yTlogH = -np.dot(Ytr.T,np.log(prob))
+...     y_Tlog1_h = -np.dot((1-Ytr).T,np.log(1 - prob))
+...     loss = (1/m)*(yTlogH - y_Tlog1_H)
+...     if iter%1000 == 0:
+... ...             print ("Train Loss = " + str(loss))
+  File "<stdin>", line 11
+    ...             print ("Train Loss = " + str(loss))
+    ^
+IndentationError: expected an indented block
+>>> for iter in range(10000):
+...     dot_prod = np.dot(Xtr,w.T)
+...     exp_val = math.e**(-1 * dot_prod)
+...     denom = 1 + exp_val
+...     prob = 1/denom
+...     m = len (prob)
+...     yTlogH = -np.dot(Ytr.T,np.log(prob))
+...     y_Tlog1_h = -np.dot((1-Ytr).T,np.log(1 - prob))
+...     loss = (1/m)*(yTlogH - y_Tlog1_H)
+...     if iter%1000 == 0:
+...             print ("Train Loss = " + str(loss))
+...     grad = np.dot((Xtr.T),(prob - Ytr))
+...     grad = grad / Xtr.shape[0]
+...     w = w - (0.00005*grad)
+...     if iter%1000 == 0:
+...             print ("GRADIENT = " + str(grad))
+...             
+... 
+Traceback (most recent call last):
+  File "<stdin>", line 9, in <module>
+NameError: name 'y_Tlog1_H' is not defined

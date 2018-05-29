@@ -13,7 +13,8 @@ class logistic_classifier(object):
     def compute_probabilities(self, Xtr):
         # function to compute mu_i (sigmoid(wTx)).
         # Complete this function.
-        return sigmoid(w,Xtr)
+        prob =  sigmoid(Xtr)
+        return prob
         pass
         
     def compute_loss(self, probabilities, Ytr):
@@ -44,7 +45,7 @@ class logistic_classifier(object):
         # a value, the result might be out of bounds of computer
         # precision. Thus, put a lower and an upper cap on the
         # input to the exponential function. 
-        dot_prod = np.dot(w.T,inputs)
+        dot_prod = np.dot(inputs, w.T)
         exp_val  = math.e**(-1*dot_prod)
         denom    = 1 + exp_val
         return 1/denom
@@ -95,7 +96,7 @@ Ytr = np.load(path + "Ytrain.npy")
 Xts = np.load(path + "Xtest.npy")
 Yts = np.load(path + "Ytest.npy")
 
-print Xtr.shape, Xts.shape
+print (Xtr.shape, Xts.shape)
 
 model = logistic_classifier(coeff=0.0)
 model.fit(Xtr, Ytr)
@@ -108,4 +109,4 @@ for i in range(len(predictions)):
 accuracy /= len(predictions)
 accuracy *= 100
 test_accuracy = accuracy
-print test_accuracy
+print (test_accuracy)
