@@ -1,5 +1,6 @@
 import numpy as np
 import sys
+import math
 
 class logistic_classifier(object):
     def __init__(self, coeff):
@@ -11,7 +12,8 @@ class logistic_classifier(object):
 
     def compute_probabilities(self, Xtr):
         # function to compute mu_i (sigmoid(wTx)).
-        # Complete this function. 
+        # Complete this function.
+        return sigmoid(w,Xtr)
         pass
         
     def compute_loss(self, probabilities, Ytr):
@@ -20,16 +22,20 @@ class logistic_classifier(object):
         # to zero. Thus, whenever you think x could be close to
         # zero, add a small positive value (like 10^(-6)) to x so that
         # log doesn't return too big a value. 
+        loss = (1/len(probabilities))*(-np.dot(Ytr.T,np.log(probabilities)) - np.dot((1-Ytr).T),np.log(1 - probabilities))
+        return loss
         pass
         
     def compute_gradients(self, probabilities, Ytr, Xtr):
         # function to compute gradients with respect to w.
         # Complete it, keeping in mind the two gradient components -
         # the one for the logistic loss and the one for the regularizer.
+        gradien = np.dot((Xtr.T),(probabilities - Ytr))
         pass
 
     def update_weights(self, learning_rate, grads):
         # function to update weights. This needs to be filled in. 
+        w = w - learning_rate*grads
         pass
 
     def sigmoid(self, inputs):
@@ -38,6 +44,10 @@ class logistic_classifier(object):
         # a value, the result might be out of bounds of computer
         # precision. Thus, put a lower and an upper cap on the
         # input to the exponential function. 
+        dot_prod = np.dot(w.T,inputs)
+        exp_val  = math.e**(-1*dot_prod)
+        denom    = 1 + exp_val
+        return 1/denom
         pass
         
     def fit(self, Xtr, Ytr):
@@ -59,7 +69,7 @@ class logistic_classifier(object):
         
             train_loss = self.compute_loss(probabilities, Ytr)
             if iter % 1000 == 0:
-                print "Train Loss = " + str(train_loss)
+                print ("Train Loss = " + str(train_loss))
             
             grads = self.compute_gradients(probabilities, Ytr, Xtr)
             grads = grads / Xtr.shape[0]
@@ -78,7 +88,7 @@ class logistic_classifier(object):
 
 dataset = "spam"
 # adjust the path according to where you have stored the dataset. 
-path = "../" + dataset + "/"
+path = "/home/aman/MLSS/spam-20180525T021104Z-001/" + dataset + "/"
 
 Xtr = np.load(path + "Xtrain.npy")
 Ytr = np.load(path + "Ytrain.npy")
