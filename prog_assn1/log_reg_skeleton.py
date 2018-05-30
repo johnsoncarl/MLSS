@@ -13,7 +13,7 @@ class logistic_classifier(object):
     def compute_probabilities(self, Xtr):
         # function to compute mu_i (sigmoid(wTx)).
         # Complete this function.
-        prob =  sigmoid(Xtr)
+        prob =  self.sigmoid(Xtr)
         return prob
         pass
         
@@ -23,7 +23,7 @@ class logistic_classifier(object):
         # to zero. Thus, whenever you think x could be close to
         # zero, add a small positive value (like 10^(-6)) to x so that
         # log doesn't return too big a value. 
-        loss = (1/len(probabilities))*(-np.dot(Ytr.T,np.log(probabilities)) - np.dot((1-Ytr).T),np.log(1 - probabilities))
+        loss = (-np.dot(Ytr,np.log(probabilities + 0.000001)) - np.dot((1-Ytr),np.log(1 - probabilities + 0.000001)))
         return loss
         pass
         
@@ -32,11 +32,12 @@ class logistic_classifier(object):
         # Complete it, keeping in mind the two gradient components -
         # the one for the logistic loss and the one for the regularizer.
         gradien = np.dot((Xtr.T),(probabilities - Ytr))
+        return gradien
         pass
 
     def update_weights(self, learning_rate, grads):
         # function to update weights. This needs to be filled in. 
-        w = w - learning_rate*grads
+        self.w = self.w - learning_rate*grads
         pass
 
     def sigmoid(self, inputs):
@@ -45,7 +46,7 @@ class logistic_classifier(object):
         # a value, the result might be out of bounds of computer
         # precision. Thus, put a lower and an upper cap on the
         # input to the exponential function. 
-        dot_prod = np.dot(inputs, w.T)
+        dot_prod = np.dot(inputs, self.w)
         exp_val  = math.e**(-1*dot_prod)
         denom    = 1 + exp_val
         return 1/denom
@@ -81,7 +82,7 @@ class logistic_classifier(object):
         This function gives label predictions on the dataset fed to it. 
         '''
         linear_combinations = np.matmul(Xts, self.w)
-        probabilities = self.sigmoid(linear_combinations)
+        probabilities = self.sigmoid(Xts)       #manually changed linear_combination to Xts 
         self.predictions = np.zeros(probabilities.shape)
         self.predictions = (probabilities > 0.5)
         return self.predictions
