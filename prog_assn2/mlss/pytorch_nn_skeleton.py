@@ -34,7 +34,21 @@ def create_nn(batch_size=200, learning_rate=0.01, epochs=10,
         def __init__(self):
             super(Net, self).__init__()
 
+            #Written code
+            #Layer_1
+            self.layer1 = nn.sequential(nn.conv2d(1, 16, kernel_size=5, padding = 2), nn.BatchNorm2d(16), nn.ReLU(), nn.MaxPool2d(2))
+
+            #Layer_2
+            self.layer2 = nn.sequential(nn.conv2d(16, 32, kernel_size=5, padding = 2), nn.BatchNorm2d(32), nn.ReLU(), nn.MaxPool2d(2))
+
+            self.fc = nn.Linear(7*7*32, 10)
+
         def forward(self, x):
+            out = self.layer1(x)
+            out = self.layer2(out)
+            out = out.view(out.size(0), -1)
+            out = self.fc(out)
+            return out
             pass
 
     net = Net()
