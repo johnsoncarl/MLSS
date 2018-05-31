@@ -4,6 +4,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torchvision import datasets, transforms
+import os
+
 
 
 
@@ -12,14 +14,14 @@ def create_nn(batch_size=200, learning_rate=0.01, epochs=10,
 
     #Loading the dataset into the train and test tensors
     train_loader = torch.utils.data.DataLoader(
-        datasets.FashionMNIST('../data', train=True, download=True,
+        datasets.FashionMNIST('./data', train=True, download=True,
                        transform=transforms.Compose([
                            transforms.ToTensor(),
                            transforms.Normalize((0.1307,), (0.3081,))
                        ])),
         batch_size=batch_size, shuffle=True)
     test_loader = torch.utils.data.DataLoader(
-        datasets.FashionMNIST('../data', train=False, transform=transforms.Compose([
+        datasets.FashionMNIST('./data', train=False, transform=transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize((0.1307,), (0.3081,))
         ])),
@@ -36,19 +38,16 @@ def create_nn(batch_size=200, learning_rate=0.01, epochs=10,
 
             #Written code
             #Layer_1
-            self.layer1 = nn.sequential(nn.conv2d(1, 16, kernel_size=5, padding = 2), nn.BatchNorm2d(16), nn.ReLU(), nn.MaxPool2d(2))
-
+            self.fc1 = nn.Linear(28*28, 200)
             #Layer_2
-            self.layer2 = nn.sequential(nn.conv2d(16, 32, kernel_size=5, padding = 2), nn.BatchNorm2d(32), nn.ReLU(), nn.MaxPool2d(2))
-
-            self.fc = nn.Linear(7*7*32, 10)
+            self.fc2 = nn.Linear(200, 200)
+            self.fc = nn.Linear(200, 10)
 
         def forward(self, x):
-            out = self.layer1(x)
-            out = self.layer2(out)
-            out = out.view(out.size(0), -1)
-            out = self.fc(out)
-            return out
+            out = F.ReLU(self.fc1(x))
+            out = F.Relu(self.fc2(x))
+            out = self.fc3(out)
+            return F.log_softmax(out)
             pass
 
     net = Net()
@@ -56,10 +55,10 @@ def create_nn(batch_size=200, learning_rate=0.01, epochs=10,
 
     # create a stochastic gradient descent optimizer/ try different optimizers
     # here like ADAM AdaGrad Momentum
-
+    optimizer = torch.optim.SGD(net.parameters(), lr = learning_rate)
 
     # create a loss function use an NLL loss that mimics crossentropy
-
+    loss = nn.NLLLoss()
 
     # run the main training loop
     # Every iteration over the complete training set is called an epoch
