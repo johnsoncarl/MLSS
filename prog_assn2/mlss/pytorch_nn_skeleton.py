@@ -38,15 +38,15 @@ def create_nn(batch_size=200, learning_rate=0.01, epochs=10,
 
             #Written code
             #Layer_1
-            self.fc1 = nn.Linear(28*28, 200)
+            self.layer1 = nn.Linear(28*28, 200)
             #Layer_2
-            self.fc2 = nn.Linear(200, 200)
-            self.fc = nn.Linear(200, 10)
+            self.layer2 = nn.Linear(200, 200)
+            self.final = nn.Linear(200, 10)
 
         def forward(self, x):
-            out = F.ReLU(self.fc1(x))
-            out = F.Relu(self.fc2(x))
-            out = self.fc3(out)
+            out = F.relu(self.layer1(x))
+            out = F.relu(self.layer2(out))
+            out = self.final(out)
             return F.log_softmax(out)
             pass
 
@@ -55,10 +55,10 @@ def create_nn(batch_size=200, learning_rate=0.01, epochs=10,
 
     # create a stochastic gradient descent optimizer/ try different optimizers
     # here like ADAM AdaGrad Momentum
-    optimizer = torch.optim.SGD(net.parameters(), lr = learning_rate)
+    optimizer = torch.optim.SGD(net.parameters(), lr = learning_rate, momentum = 0.9)
 
     # create a loss function use an NLL loss that mimics crossentropy
-    loss = nn.NLLLoss()
+    criterion = nn.NLLLoss()
 
     # run the main training loop
     # Every iteration over the complete training set is called an epoch
